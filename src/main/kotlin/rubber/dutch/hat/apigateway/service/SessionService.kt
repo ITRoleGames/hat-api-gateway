@@ -33,8 +33,8 @@ class SessionService @Autowired constructor(
      * Проверяет токен во входящем запросе обращаясь к сервису пользователей и если токен невалидный выбрасывает
      * исключение.
      *
-     * @throws IllegalStateException Если токен отсутствует или просрочен
-     * @throws org.springframework.web.reactive.function.client.WebClientResponseException Если по API лучен 4xx ответ
+     * @throws IllegalStateException Если токен отсутствует или просрочен.
+     * @throws org.springframework.web.reactive.function.client.WebClientResponseException Если по API получен 4xx ответ.
      */
     fun validate(exchange: ServerWebExchange): Mono<ServerWebExchange> {
         val accessToken: String? = exchange.request.headers.getFirst(headerConfig.authorization)
