@@ -1,6 +1,12 @@
 server:
   port: 9002
-
+hat:
+  headers:
+    authorization: "authorization"
+    userId: "user-id"
+  user-service:
+    host: http://${APP_HOST:localhost}:9001
+    tokenUrlPath: "/api/v1/token"
 spring:
   cloud:
     gateway:
