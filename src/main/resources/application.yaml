@@ -1,27 +1,27 @@
 server:
-  port: 9999
+  port: 9002
 
 spring:
   cloud:
     gateway:
       routes:
         - id: get-current-user
-          uri: http://localhost:8081
+          uri: http://${APP_HOST:localhost}:9001
           predicates:
             - Path=/api/v1/user/current
             - Method=GET
         - id: user-create
-          uri: http://localhost:8081
+          uri: http://${APP_HOST:localhost}:9001
           predicates:
             - Path=/api/v1/users
             - Method=POST
         - id: game-join
-          uri: http://localhost:8080
+          uri: http://${APP_HOST:localhost}:9000
           predicates:
             - Path=/api/v1/game/join
             - Method=POST
         - id: game-create
-          uri: http://localhost:8080
+          uri: http://${APP_HOST:localhost}:9000
           predicates:
             - Path=/api/v1/games
             - Method=POST
