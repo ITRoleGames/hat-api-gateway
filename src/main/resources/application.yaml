@@ -6,7 +6,11 @@ hat:
     userId: "user-id"
   user-service:
     host: http://${APP_HOST:localhost}:9001
-    tokenUrlPath: "/api/v1/token"
+    tokenUrlPath: "/api/v1/tokens"
+  session-filter:
+    unsecure-routes:
+        - path: "/api/v1/users"
+          method: "POST"
 spring:
   cloud:
     gateway:

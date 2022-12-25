@@ -4,10 +4,11 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import rubber.dutch.hat.apigateway.config.HeaderConfig
+import rubber.dutch.hat.apigateway.config.SessionFilterConfig
 import rubber.dutch.hat.apigateway.config.UserServiceConfig
 
 @SpringBootApplication
-@EnableConfigurationProperties(UserServiceConfig::class, HeaderConfig::class)
+@EnableConfigurationProperties(UserServiceConfig::class, HeaderConfig::class, SessionFilterConfig::class)
 class ApiGatewayApplication {
 
     companion object {
