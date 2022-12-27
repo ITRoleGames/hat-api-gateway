@@ -2,13 +2,10 @@ package rubber.dutch.hat.apigateway
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.context.properties.EnableConfigurationProperties
-import rubber.dutch.hat.apigateway.config.HeaderConfig
-import rubber.dutch.hat.apigateway.config.SessionFilterConfig
-import rubber.dutch.hat.apigateway.config.UserServiceConfig
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 
 @SpringBootApplication
-@EnableConfigurationProperties(UserServiceConfig::class, HeaderConfig::class, SessionFilterConfig::class)
+@ConfigurationPropertiesScan("rubber.dutch.hat.apigateway.config")
 class ApiGatewayApplication {
 
     companion object {
