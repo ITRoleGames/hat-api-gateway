@@ -49,7 +49,6 @@ class BaseRouteTest {
     }
 
     protected fun mockTokenCall(userServerMock: ClientAndServer) {
-
         userServerMock.`when`(
             HttpRequest.request()
                 .withMethod(HttpMethod.GET.name())

@@ -16,6 +16,7 @@ import rubber.dutch.hat.apigateway.model.TokenDTO
  */
 @Service
 class SessionService @Autowired constructor(
+
     private val headerConfig: HeaderConfig,
     webClientBuilder: WebClient.Builder,
     @Value("\${hat.services.user-service.uri}")
@@ -23,6 +24,13 @@ class SessionService @Autowired constructor(
     @Value("\${hat.services.user-service.tokenPath}")
     private var userServiceTokenPath: String
 ) {
+
+    companion object {
+        /**
+         * Длина префикса "Bearer ", после которого в заголовке запроса следует токен.
+         */
+        const val BEARER_PREFIX_LENGTH = 7
+    }
 
     private val webClient: WebClient
 
@@ -43,12 +51,12 @@ class SessionService @Autowired constructor(
         val accessToken: String? = getTokenFromHeader(exchange)
 
         if (accessToken.isNullOrBlank()) {
-            return Mono.error { IllegalStateException() }
+            return Mono.error { error("Token not found") }
         }
 
         return webClient.get()
             .uri { uriBuilder ->
-                uriBuilder.path("${userServiceTokenPath}/{token}").build(accessToken)
+                uriBuilder.path("$userServiceTokenPath/{token}").build(accessToken)
             }
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
@@ -58,14 +66,12 @@ class SessionService @Autowired constructor(
     }
 
     private fun getTokenFromHeader(exchange: ServerWebExchange): String? {
-
-        return exchange.request.headers.getFirst(headerConfig.authorization)?.substring(7)
+        return exchange.request.headers.getFirst(headerConfig.authorization)?.substring(BEARER_PREFIX_LENGTH)
     }
 
     private fun addSessionHeader(exchange: ServerWebExchange, tokenData: TokenDTO): ServerWebExchange {
-
         if (tokenData.expired) {
-            throw java.lang.IllegalStateException()
+            error("Token expired")
         }
 
         val mutatedRequest = exchange.request.mutate().header(headerConfig.userId, tokenData.userId.toString()).build()

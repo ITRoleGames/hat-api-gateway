@@ -16,12 +16,11 @@ import rubber.dutch.hat.apigateway.service.SessionService
 class SessionFilter(val sessionService: SessionService, val sessionFilterConfig: SessionFilterConfig) : GlobalFilter {
 
     override fun filter(serverWebExchange: ServerWebExchange, chain: GatewayFilterChain): Mono<Void> {
-
         if (skipValidation(serverWebExchange)) return chain.filter(serverWebExchange)
 
         return sessionService.validate(serverWebExchange)
-                .flatMap { exchange -> chain.filter(exchange) }
-                .onErrorResume(RuntimeException::class.java) { handleUnauthorized(serverWebExchange) }
+            .flatMap { exchange -> chain.filter(exchange) }
+            .onErrorResume(RuntimeException::class.java) { handleUnauthorized(serverWebExchange) }
     }
 
     private fun skipValidation(serverWebExchange: ServerWebExchange): Boolean {

@@ -12,7 +12,6 @@ import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.util.TestSocketUtils
 
-
 class CreateUserRouteTest : BaseRouteTest() {
 
     companion object {
@@ -49,6 +48,5 @@ class CreateUserRouteTest : BaseRouteTest() {
             .expectStatus().isOk
             .expectBody(Map::class.java)
             .consumeWith { result -> assertThat(result.responseBody).isNotEmpty() }
-
     }
 }

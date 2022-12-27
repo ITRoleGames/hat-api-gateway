@@ -12,7 +12,6 @@ import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.util.TestSocketUtils
 
-
 @Suppress("UastIncorrectHttpHeaderInspection")
 class CreateGameRouteTest : BaseRouteTest() {
 
@@ -57,6 +56,5 @@ class CreateGameRouteTest : BaseRouteTest() {
             .expectStatus().isOk
             .expectBody(Map::class.java)
             .consumeWith { result -> assertThat(result.responseBody).isNotEmpty() }
-
     }
 }

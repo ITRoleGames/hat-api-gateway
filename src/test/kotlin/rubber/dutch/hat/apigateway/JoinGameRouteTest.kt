@@ -12,10 +12,9 @@ import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.util.TestSocketUtils
 
-
 class JoinGameRouteTest : BaseRouteTest() {
 
-    companion object{
+    companion object {
         private var userServicePort: Int = TestSocketUtils.findAvailableTcpPort()
 
         private var gameServicePort: Int = TestSocketUtils.findAvailableTcpPort()
