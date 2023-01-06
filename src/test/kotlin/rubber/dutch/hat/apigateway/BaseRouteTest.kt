@@ -35,7 +35,7 @@ class BaseRouteTest {
 
     lateinit var mockServerUser: ClientAndServer
 
-    protected var mockServerGame: ClientAndServer? = null
+    internal var mockServerGame: ClientAndServer? = null
 
     @BeforeEach
     internal fun setUp() {
@@ -48,7 +48,7 @@ class BaseRouteTest {
         mockServerGame?.stop()
     }
 
-    protected fun mockTokenCall(userServerMock: ClientAndServer) {
+    internal fun mockTokenCall(userServerMock: ClientAndServer) {
         userServerMock.`when`(
             HttpRequest.request()
                 .withMethod(HttpMethod.GET.name())
