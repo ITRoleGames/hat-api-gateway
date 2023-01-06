@@ -16,7 +16,6 @@ import rubber.dutch.hat.apigateway.model.TokenDTO
  */
 @Service
 class SessionService @Autowired constructor(
-
     private val headerConfig: HeaderConfig,
     webClientBuilder: WebClient.Builder,
     @Value("\${hat.services.user-service.uri}")
