@@ -38,3 +38,6 @@ spring:
           predicates:
             - Path=/api/v1/games
             - Method=POST
+      httpclient:
+        connect-timeout: 1000
+        response-timeout: 5s
