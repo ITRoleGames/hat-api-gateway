@@ -8,6 +8,8 @@ hat:
     unsecure-routes:
       - path: "/api/v1/users"
         method: "POST"
+      - path: "/api/v1/game/ws/**"
+        method: "all"
   services:
     user-service:
       uri: http://${APP_HOST:localhost}:9001
@@ -18,6 +20,7 @@ spring:
   cloud:
     gateway:
       routes:
+#        USER SERVICE
         - id: get-current-user
           uri: ${hat.services.user-service.uri}
           predicates:
@@ -28,6 +31,14 @@ spring:
           predicates:
             - Path=/api/v1/users
             - Method=POST
+        - id: users-get
+          uri: ${hat.services.user-service.uri}
+          predicates:
+            - Path=/api/v1/users
+            - Method=GET
+            - Query=ids
+#        USER SERVICE END
+#        GAME SERVICE
         - id: game-join
           uri: ${hat.services.game-service.uri}
           predicates:
@@ -38,6 +49,16 @@ spring:
           predicates:
             - Path=/api/v1/games
             - Method=POST
+        - id: game-get
+          uri: ${hat.services.game-service.uri}
+          predicates:
+            - Path=/api/v1/games/{id}
+            - Method=GET
+        - id: game-ws
+          uri: ${hat.services.game-service.uri}
+          predicates:
+            - Path=/api/v1/ws/**
+#        GAME SERVICE END
       httpclient:
         connect-timeout: 1000
         response-timeout: 5s
