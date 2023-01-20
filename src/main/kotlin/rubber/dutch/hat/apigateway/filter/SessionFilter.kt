@@ -13,7 +13,10 @@ import rubber.dutch.hat.apigateway.service.UnsecureRouteService
  * Фильтр сессии. Проверяет наличие Authorization-токена.
  */
 @Component
-class SessionFilter(val sessionService: SessionService, val unsecureRouteService: UnsecureRouteService) : GlobalFilter {
+class SessionFilter(
+    private val sessionService: SessionService,
+    private val unsecureRouteService: UnsecureRouteService
+) : GlobalFilter {
 
     override fun filter(serverWebExchange: ServerWebExchange, chain: GatewayFilterChain): Mono<Void> {
         if (unsecureRouteService.isUnsecure(serverWebExchange)) return chain.filter(serverWebExchange)

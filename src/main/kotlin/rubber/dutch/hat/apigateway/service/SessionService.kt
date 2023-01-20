@@ -1,6 +1,5 @@
 package rubber.dutch.hat.apigateway.service
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
@@ -15,7 +14,7 @@ import rubber.dutch.hat.apigateway.model.TokenDTO
  * Сервис проверки сессии.
  */
 @Service
-class SessionService @Autowired constructor(
+class SessionService(
     private val headerConfig: HeaderConfig,
     webClientBuilder: WebClient.Builder,
     @Value("\${hat.services.user-service.uri}")
