@@ -10,7 +10,7 @@ import rubber.dutch.hat.apigateway.service.SessionService
 import rubber.dutch.hat.apigateway.service.UnsecureRouteService
 
 /**
- * <p>Фильтр сессии. Проверяет наличие Authorization-токена.</p>
+ * Фильтр сессии. Проверяет наличие Authorization-токена.
  */
 @Component
 class SessionFilter(val sessionService: SessionService, val unsecureRouteService: UnsecureRouteService) : GlobalFilter {

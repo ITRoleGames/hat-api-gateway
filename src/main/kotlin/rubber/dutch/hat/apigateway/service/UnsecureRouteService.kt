@@ -16,7 +16,6 @@ class UnsecureRouteService(private val sessionFilterConfig: SessionFilterConfig)
         return sessionFilterConfig.unsecureRoutes.any { matchRoute(it, serverWebExchange) }
     }
 
-
     private fun matchRoute(route: Route, serverWebExchange: ServerWebExchange): Boolean {
         val path = serverWebExchange.request.path.value()
         val method = serverWebExchange.request.method.name()
