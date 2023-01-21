@@ -43,6 +43,7 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
     - name: Webhook
       uses: distributhor/workflow-webhook@v2
-      with:
+      env:
         webhook_url: "http://hat.need-more.space:9999/hooks/redeploy-api-gateway"
         verify_ssl: false
+        verbose: true
