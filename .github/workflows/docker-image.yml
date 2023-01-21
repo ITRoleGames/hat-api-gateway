@@ -42,6 +42,6 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
     - name: Webhook
-      uses: distributhor/workflow-webhook
+      uses: distributhor/workflow-webhook@v2
       with:
-        url: ${{ secrets.GATEWAY_REDEPLOY_WEBHOOK_URL  }}
+        webhook_url: ${{ secrets.GATEWAY_REDEPLOY_WEBHOOK_URL  }}
