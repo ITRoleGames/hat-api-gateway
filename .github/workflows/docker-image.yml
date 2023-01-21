@@ -44,4 +44,5 @@ jobs:
     - name: Webhook
       uses: distributhor/workflow-webhook@v2
       with:
-        webhook_url: ${{ secrets.GATEWAY_REDEPLOY_WEBHOOK_URL  }}
+        webhook_url: "http://hat.need-more.space:9999/hooks/redeploy-api-gateway"
+        verify_ssl: false
