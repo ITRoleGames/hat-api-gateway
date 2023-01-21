@@ -3,6 +3,7 @@ WORKDIR /workspace/app
 
 COPY gradle gradle
 COPY build.gradle.kts settings.gradle.kts gradlew ./
+COPY config config
 COPY src src
 
 RUN apk update && apk add dos2unix
