@@ -45,5 +45,6 @@ jobs:
       uses: distributhor/workflow-webhook@v2
       env:
         webhook_url: "http://hat.need-more.space:9999/hooks/redeploy-api-gateway"
+        webhook_secret: "http://hat.need-more.space:9999/hooks/redeploy-api-gateway"
         verify_ssl: false
         verbose: true
