@@ -58,6 +58,11 @@ spring:
           uri: ${hat.services.game-service.uri}
           predicates:
             - Path=/api/v1/ws/**
+        - id: game-words-add
+          uri: ${hat.services.game-service.uri}
+          predicates:
+            - Path=/api/v1/words
+            - Method=POST
 #        GAME SERVICE END
       httpclient:
         connect-timeout: 1000

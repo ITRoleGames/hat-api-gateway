@@ -1,3 +1,5 @@
+![Docker image](https://github.com/ITRoleGames/hat-api-gateway/actions/workflows/docker-image.yml/badge.svg)
+
 # Hat-api-gateway
 Требуемая версия JAVA 17. 
 
