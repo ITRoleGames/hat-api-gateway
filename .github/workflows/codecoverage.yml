@@ -3,7 +3,7 @@ name: Code Coverage
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
       - '**'
@@ -17,6 +17,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: Before Install
+        run: |
+          chmod +x gradlew
+          chmod +x gradle/wrapper/gradle-wrapper.jar
+      - name: Run Script
+        run: |
+          ./gradlew build
       - name: Upload code coverage
         uses: codecov/codecov-action@v3
         with:
