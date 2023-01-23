@@ -58,7 +58,7 @@ class JoinGameRouteTest : BaseRouteTest() {
     }
 
     @Test
-    fun `WHEN join game THEN token not found`() {
+    fun `WHEN join game without JWN token THEN Unauthorized`() {
         mockServerGame?.`when`(
             HttpRequest.request()
                 .withMethod(HttpMethod.POST.name())
@@ -66,9 +66,7 @@ class JoinGameRouteTest : BaseRouteTest() {
                 .withPath("/api/v1/game/join")
         )?.respond(
             HttpResponse.response()
-                .withStatusCode(HttpStatus.OK.value())
-                .withContentType(org.mockserver.model.MediaType.APPLICATION_JSON)
-                .withBody("{\"test\":\"test\"}")
+                .withStatusCode(HttpStatus.UNAUTHORIZED.value())
         )
 
         client.post().uri("api/v1/game/join")
