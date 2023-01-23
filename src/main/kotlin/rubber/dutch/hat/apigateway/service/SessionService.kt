@@ -25,7 +25,7 @@ class SessionService(
 
     companion object {
         /**
-         * Длина префикса "Bearer ", после которого в заголовке запроса следует токен.
+         * Длина префикса "Bearer", после которого в заголовке запроса следует токен.
          */
         const val BEARER_PREFIX_LENGTH = 7
     }
