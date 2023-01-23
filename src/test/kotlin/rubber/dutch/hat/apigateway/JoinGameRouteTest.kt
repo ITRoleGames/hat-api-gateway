@@ -56,4 +56,25 @@ class JoinGameRouteTest : BaseRouteTest() {
             .expectBody(Map::class.java)
             .consumeWith { result -> assertThat(result.responseBody).isNotEmpty() }
     }
+
+    @Test
+    fun `WHEN join game THEN token not found`() {
+        mockServerGame?.`when`(
+            HttpRequest.request()
+                .withMethod(HttpMethod.POST.name())
+                .withHeader("user-id", USER_ID)
+                .withPath("/api/v1/game/join")
+        )?.respond(
+            HttpResponse.response()
+                .withStatusCode(HttpStatus.OK.value())
+                .withContentType(org.mockserver.model.MediaType.APPLICATION_JSON)
+                .withBody("{\"test\":\"test\"}")
+        )
+
+        client.post().uri("api/v1/game/join")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody(Map::class.java)
+            .consumeWith { result -> assertThat(result.responseBody).isNotEmpty() }
+    }
 }
