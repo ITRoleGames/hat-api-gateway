@@ -59,20 +59,8 @@ class JoinGameRouteTest : BaseRouteTest() {
 
     @Test
     fun `WHEN join game without JWN token THEN Unauthorized`() {
-        mockServerGame?.`when`(
-            HttpRequest.request()
-                .withMethod(HttpMethod.POST.name())
-                .withHeader("user-id", USER_ID)
-                .withPath("/api/v1/game/join")
-        )?.respond(
-            HttpResponse.response()
-                .withStatusCode(HttpStatus.UNAUTHORIZED.value())
-        )
-
         client.post().uri("api/v1/game/join")
             .exchange()
-            .expectStatus().isOk
-            .expectBody(Map::class.java)
-            .consumeWith { result -> assertThat(result.responseBody).isNotEmpty() }
+            .expectStatus().isUnauthorized
     }
 }
