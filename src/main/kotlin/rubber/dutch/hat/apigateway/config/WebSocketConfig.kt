@@ -18,7 +18,8 @@ class WebSocketConfig(private val webSocketHandler: WebSocketHandler) {
 
     @Bean
     fun handlerMapping(): HandlerMapping {
-        val path = "/push/{id}"
+//        val path = "/push/{id}"
+        val path = "/ws/topic/game/{id}"
         val map = mapOf(path to webSocketHandler)
         return SimpleUrlHandlerMapping(map, -1)
     }

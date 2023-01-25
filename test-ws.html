@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="root"></div>
+<script>
+    const root = document.getElementById("root");
+    let socket = new WebSocket("ws://localhost:9002/ws/topic/game/1");
+
+    socket.onopen = () => {
+        console.log("ws#1 connection opened")
+        socket.send("message")
+    }
+    socket.onmessage = (ev) => {
+        console.log(ev)
+        // console.log("#1 New message:" + JSON.stringify(ev.data))
+        const message = document.createElement('div')
+        message.innerHTML = "<div>#1" + JSON.stringify(ev.data)+"</div>"
+        root.appendChild(message);
+
+    }
+
+    let socket2 = new WebSocket("ws://localhost:9002/ws/topic/game/2");
+
+    socket2.onopen = () => {
+        console.log("ws#2 connection opened")
+        socket2.send("message")
+    }
+    socket2.onmessage = (ev) => {
+        console.log(ev)
+        // console.log("#2 New message:" + JSON.stringify(ev.data))
+        const message = document.createElement('div')
+        message.innerHTML = "<div>#2" + JSON.stringify(ev.data)+"</div>"
+        root.appendChild(message);
+    }
+
+
+
+
+</script>
+</body>
+</html>

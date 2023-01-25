@@ -8,8 +8,8 @@ hat:
     unsecure-routes:
       - path: "/api/v1/users"
         method: "POST"
-      - path: "/ws/**"
-        method: "all"
+#      - path: "/ws/**"
+#        method: "all"
   services:
     user-service:
       uri: http://${APP_HOST:localhost}:9001
@@ -17,6 +17,11 @@ hat:
     game-service:
       uri: http://${APP_HOST:localhost}:9000
 spring:
+  rabbitmq:
+    host: ${APP_HOST:localhost}
+    port: ${RABBIT_MQ_PORT:5672}
+    username: ${RABBIT_MQ_USERNAME:hat_user}
+    password: ${RABBIT_MQ_PASSWORD:test1234}
   cloud:
     gateway:
       routes:
@@ -54,10 +59,10 @@ spring:
           predicates:
             - Path=/api/v1/games/{id}
             - Method=GET
-        - id: game-ws
-          uri: ${hat.services.game-service.uri}
-          predicates:
-            - Path=/ws/**
+#        - id: game-ws
+#          uri: ${hat.services.game-service.uri}
+#          predicates:
+#            - Path=/ws/**
         - id: game-words-add
           uri: ${hat.services.game-service.uri}
           predicates:

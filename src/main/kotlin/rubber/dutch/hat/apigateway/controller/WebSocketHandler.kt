@@ -16,11 +16,11 @@ class WebSocketHandler(private val eventUnicastService: EventUnicastService,
 
     override fun handle(session: WebSocketSession): Mono<Void> {
         val messages: Flux<WebSocketMessage> = session.receive()
-            // .doOnNext(message -> { read message here or in the block below })
             .flatMap { message ->
                 print(message)
                 return@flatMap eventUnicastService.getMessages()
             }
+            .filter { o -> session.handshakeInfo.uri.path?.contains("game/${o.receiverId}") ?: false }
             .flatMap { o ->
                 try {
                     return@flatMap Mono.just(objectMapper.writeValueAsString(o))
