@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.7.21"
     kotlin("plugin.spring") version "1.7.21"
     id("io.gitlab.arturbosch.detekt") version "1.22.0"
+    id("jacoco")
 }
 
 group = "rubber.dutch.hat"
@@ -51,6 +52,18 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        csv.required.set(false)
+        html.required.set(false)
+    }
+}
+
 detekt {
     source = objects.fileCollection().from(
         io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_SRC_DIR_JAVA,
@@ -60,4 +73,9 @@ detekt {
     )
     buildUponDefaultConfig = true
     baseline = file("$rootDir/config/detekt/baseline.xml")
+    config = files("$rootDir/config/detekt/detekt.yml","$rootDir/config/detekt/detekt-custom.yml")
+}
+
+jacoco {
+    toolVersion = "0.8.7"
 }

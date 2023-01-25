@@ -56,4 +56,11 @@ class JoinGameRouteTest : BaseRouteTest() {
             .expectBody(Map::class.java)
             .consumeWith { result -> assertThat(result.responseBody).isNotEmpty() }
     }
+
+    @Test
+    fun `WHEN join game without JWN token THEN Unauthorized`() {
+        client.post().uri("api/v1/game/join")
+            .exchange()
+            .expectStatus().isUnauthorized
+    }
 }

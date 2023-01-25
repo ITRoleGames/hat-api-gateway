@@ -1,3 +1,7 @@
+![Docker image](https://github.com/ITRoleGames/hat-api-gateway/actions/workflows/docker-image.yml/badge.svg)
+
+[![codecov](https://codecov.io/gh/ITRoleGames/hat-api-gateway/branch/master/graph/badge.svg?token=SQP1HFGM33)](https://codecov.io/gh/ITRoleGames/hat-api-gateway)
+
 # Hat-api-gateway
 Требуемая версия JAVA 17. 
 
