@@ -18,6 +18,7 @@ spring:
   cloud:
     gateway:
       routes:
+#        USER SERVICE
         - id: get-current-user
           uri: ${hat.services.user-service.uri}
           predicates:
@@ -28,6 +29,14 @@ spring:
           predicates:
             - Path=/api/v1/users
             - Method=POST
+        - id: users-get
+          uri: ${hat.services.user-service.uri}
+          predicates:
+            - Path=/api/v1/users
+            - Method=GET
+            - Query=ids
+#        USER SERVICE END
+#        GAME SERVICE
         - id: game-join
           uri: ${hat.services.game-service.uri}
           predicates:
@@ -38,11 +47,21 @@ spring:
           predicates:
             - Path=/api/v1/games
             - Method=POST
+        - id: game-get
+          uri: ${hat.services.game-service.uri}
+          predicates:
+            - Path=/api/v1/games/{id}
+            - Method=GET
+        - id: game-ws
+          uri: ${hat.services.game-service.uri}
+          predicates:
+            - Path=/ws/**
         - id: game-words-add
           uri: ${hat.services.game-service.uri}
           predicates:
             - Path=/api/v1/words
             - Method=POST
+#        GAME SERVICE END
       httpclient:
         connect-timeout: 1000
         response-timeout: 5s
