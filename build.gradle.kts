@@ -24,6 +24,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.cloud:spring-cloud-starter-gateway")
+    implementation("org.springframework.boot:spring-boot-starter-amqp")
+    implementation("org.springframework.boot:spring-boot-starter-rsocket")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mock-server:mockserver-netty:5.14.0")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")

@@ -14,7 +14,18 @@ hat:
       tokenPath: "/api/v1/tokens"
     game-service:
       uri: http://${APP_HOST:localhost}:9000
+
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  rsocket:
+    server:
+      port: 9003
+      mapping-path: /rsocket
+      transport: websocket
   cloud:
     gateway:
       routes:
