@@ -11,6 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
+import org.springframework.test.util.TestSocketUtils
 import org.springframework.test.web.reactive.server.WebTestClient
 import rubber.dutch.hat.apigateway.model.TokenDTO
 import java.util.*
@@ -24,28 +27,42 @@ class BaseRouteTest {
     @Autowired
     lateinit var objectMapper: ObjectMapper
 
+    lateinit var client: WebTestClient
+
+    lateinit var mockServerUser: ClientAndServer
+
+    lateinit var mockServerGame: ClientAndServer
+
     companion object {
 
         const val TOKEN = "1234"
 
         const val USER_ID = "6e36074d-0614-47d7-bd61-e3840ea5b4d8"
+
+        private var userServicePort: Int = TestSocketUtils.findAvailableTcpPort()
+
+        private var gameServicePort: Int = TestSocketUtils.findAvailableTcpPort()
+
+        @JvmStatic
+        @DynamicPropertySource
+        fun registerProperties(registry: DynamicPropertyRegistry) {
+            registry.add("hat.services.user-service.uri") { "http://localhost:$userServicePort" }
+            registry.add("hat.services.game-service.uri") { "http://localhost:$gameServicePort" }
+        }
     }
-
-    lateinit var client: WebTestClient
-
-    lateinit var mockServerUser: ClientAndServer
-
-    internal var mockServerGame: ClientAndServer? = null
 
     @BeforeEach
     internal fun setUp() {
         client = WebTestClient.bindToServer().baseUrl("http://localhost:$port").build()
+        mockServerUser = ClientAndServer.startClientAndServer(userServicePort)
+        mockTokenCall(mockServerUser)
+        mockServerGame = ClientAndServer.startClientAndServer(gameServicePort)
     }
 
     @AfterEach
     internal fun tearDown() {
         mockServerUser.stop()
-        mockServerGame?.stop()
+        mockServerGame.stop()
     }
 
     internal fun mockTokenCall(userServerMock: ClientAndServer) {
