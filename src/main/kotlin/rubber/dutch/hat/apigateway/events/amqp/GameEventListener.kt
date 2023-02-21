@@ -13,5 +13,4 @@ class GameEventListener(val gameEventMulticastService: GameEventMulticastService
     fun onUserRegistration(event: GameUpdatedEvent) {
         gameEventMulticastService.onNext(event)
     }
-
 }

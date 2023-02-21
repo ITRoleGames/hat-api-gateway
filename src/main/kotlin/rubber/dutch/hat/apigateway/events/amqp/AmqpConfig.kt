@@ -13,8 +13,7 @@ class AmqpConfig {
     }
 
     @Bean
-    fun jackson2MessageConverter(objectMapper : ObjectMapper): Jackson2JsonMessageConverter {
+    fun jackson2MessageConverter(objectMapper: ObjectMapper): Jackson2JsonMessageConverter {
         return Jackson2JsonMessageConverter(objectMapper)
     }
 }
-
