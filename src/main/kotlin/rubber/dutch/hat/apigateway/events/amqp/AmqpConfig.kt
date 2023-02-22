@@ -1,4 +1,4 @@
-package rubber.dutch.hat.apigateway.events.amgp
+package rubber.dutch.hat.apigateway.events.amqp
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter
@@ -9,12 +9,11 @@ import org.springframework.context.annotation.Configuration
 class AmqpConfig {
 
     companion object {
-        const val QUEUE_NAME = "game-update-event"
+        const val GAME_EVENT_QUEUE_NAME = "game.events.queue"
     }
 
     @Bean
-    fun jackson2MessageConverter(objectMapper : ObjectMapper): Jackson2JsonMessageConverter {
+    fun jackson2MessageConverter(objectMapper: ObjectMapper): Jackson2JsonMessageConverter {
         return Jackson2JsonMessageConverter(objectMapper)
     }
 }
-

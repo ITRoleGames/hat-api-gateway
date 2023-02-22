@@ -23,11 +23,15 @@ extra["springCloudVersion"] = "2022.0.0-RC2"
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.springframework.cloud:spring-cloud-starter-gateway")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation("org.springframework.boot:spring-boot-starter-rsocket")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.mock-server:mockserver-netty:5.14.0")
+    testImplementation("org.mock-server:mockserver-netty:5.15.0")
+    testImplementation("org.testcontainers:junit-jupiter:1.17.6")
+    testImplementation("org.testcontainers:rabbitmq:1.17.6")
+    testImplementation("org.awaitility:awaitility:4.2.0")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
 }
 
