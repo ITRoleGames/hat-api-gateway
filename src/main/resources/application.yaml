@@ -1,6 +1,7 @@
 server:
   port: 9002
-hat:
+application:
+  version: ${version}
   headers:
     authorization: "authorization"
     userId: "user-id"
@@ -10,27 +11,27 @@ hat:
         method: "POST"
   services:
     user-service:
-      uri: http://${APP_HOST:localhost}:9001
+      uri: http://\${APP_HOST:localhost}:9001
       tokenPath: "/api/v1/tokens"
     game-service:
-      uri: http://${APP_HOST:localhost}:9000
+      uri: http://\${APP_HOST:localhost}:9000
 spring:
   cloud:
     gateway:
       routes:
 #        USER SERVICE
         - id: get-current-user
-          uri: ${hat.services.user-service.uri}
+          uri: \${application.services.user-service.uri}
           predicates:
             - Path=/api/v1/user/current
             - Method=GET
         - id: user-create
-          uri: ${hat.services.user-service.uri}
+          uri: \${application.services.user-service.uri}
           predicates:
             - Path=/api/v1/users
             - Method=POST
         - id: users-get
-          uri: ${hat.services.user-service.uri}
+          uri: \${application.services.user-service.uri}
           predicates:
             - Path=/api/v1/users
             - Method=GET
@@ -38,31 +39,31 @@ spring:
 #        USER SERVICE END
 #        GAME SERVICE
         - id: game-join
-          uri: ${hat.services.game-service.uri}
+          uri: \${application.services.game-service.uri}
           predicates:
             - Path=/api/v1/game/join
             - Method=POST
         - id: game-create
-          uri: ${hat.services.game-service.uri}
+          uri: \${application.services.game-service.uri}
           predicates:
             - Path=/api/v1/games
             - Method=POST
         - id: game-get
-          uri: ${hat.services.game-service.uri}
+          uri: \${application.services.game-service.uri}
           predicates:
             - Path=/api/v1/games/{id}
             - Method=GET
         - id: game-ws
-          uri: ${hat.services.game-service.uri}
+          uri: \${application.services.game-service.uri}
           predicates:
             - Path=/ws/**
         - id: game-words-add
-          uri: ${hat.services.game-service.uri}
+          uri: \${application.services.game-service.uri}
           predicates:
             - Path=/api/v1/words
             - Method=POST
         - id: game-start-game
-          uri: ${hat.services.game-service.uri}
+          uri: \${application.services.game-service.uri}
           predicates:
             - Path=/api/v1/games/{gameId}/startGame
             - Method=POST

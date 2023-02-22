@@ -20,7 +20,7 @@ class GetCurrentUserRouteTest : BaseRouteTest() {
         @JvmStatic
         @DynamicPropertySource
         fun registerProperties(registry: DynamicPropertyRegistry) {
-            registry.add("hat.services.user-service.uri") { "http://localhost:$userServicePort" }
+            registry.add("application.services.user-service.uri") { "http://localhost:$userServicePort" }
         }
     }
 
