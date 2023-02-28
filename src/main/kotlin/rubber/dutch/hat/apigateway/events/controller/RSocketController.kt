@@ -26,7 +26,7 @@ class RSocketController(
         requester: RSocketRequester,
         @DestinationVariable gameId: String,
         @DestinationVariable userId: String,
-        @Header("access_token") accessToken: String,
+        @Header(RsocketConfig.ACCESS_TOKEN_HEADER) accessToken: String,
     ) {
         authService.validate(accessToken)
             .doOnSuccess { tokenDto ->
