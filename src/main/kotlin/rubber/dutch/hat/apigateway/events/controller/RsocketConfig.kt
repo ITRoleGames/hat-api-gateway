@@ -16,7 +16,6 @@ class RsocketConfig {
 
     @Bean
     fun rsocketStrategies(objectMapper: ObjectMapper): RSocketStrategies {
-
         return RSocketStrategies.builder()
             .decoder(Jackson2JsonDecoder(objectMapper))
             .encoder(Jackson2JsonEncoder(objectMapper))

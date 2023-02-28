@@ -35,7 +35,6 @@ class RSocketController(
                 } else {
                     requester.rsocket()?.dispose()
                 }
-
             }
             .doOnError { ex ->
                 logger.error("An error occurred on token validation", ex)
