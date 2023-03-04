@@ -16,8 +16,7 @@ import org.testcontainers.shaded.org.awaitility.Awaitility
 import reactor.core.Disposable
 import rubber.dutch.hat.apigateway.BaseContainersTest
 import rubber.dutch.hat.apigateway.events.amqp.AmqpConfig
-import rubber.dutch.hat.apigateway.events.model.GameEventType
-import rubber.dutch.hat.apigateway.events.model.GameUpdatedEvent
+import rubber.dutch.hat.game.api.GameUpdatedEvent
 import java.net.URI
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -133,7 +132,7 @@ class RsocketEventsTest : BaseContainersTest() {
     private fun sendGameEvent(gameId: UUID) {
         amqpTemplate.convertAndSend(
             AmqpConfig.GAME_EVENT_QUEUE_NAME,
-            GameUpdatedEvent(gameId, GameEventType.GAME_UPDATED, UUID.randomUUID())
+            GameUpdatedEvent(gameId, UUID.randomUUID())
         )
     }
 }

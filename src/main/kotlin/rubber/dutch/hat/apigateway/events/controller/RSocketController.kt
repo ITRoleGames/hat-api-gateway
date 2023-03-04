@@ -6,7 +6,7 @@ import org.springframework.messaging.rsocket.annotation.ConnectMapping
 import org.springframework.stereotype.Controller
 import reactor.core.publisher.Flux
 import rubber.dutch.hat.apigateway.events.GameEventMulticastService
-import rubber.dutch.hat.apigateway.events.model.GameUpdatedEvent
+import rubber.dutch.hat.game.api.GameUpdatedEvent
 
 @Controller
 class RSocketController(
