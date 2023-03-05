@@ -1,5 +1,6 @@
 package rubber.dutch.hat.apigateway.events
 
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.amqp.core.AmqpTemplate
@@ -33,6 +34,8 @@ class RsocketEventsTest : BaseContainersTest() {
     @LocalRSocketServerPort
     var rsocketPort: Int? = null
 
+    val requesters = mutableListOf<Disposable>()
+
     companion object {
         private var rsocketPort: Int = TestSocketUtils.findAvailableTcpPort()
 
@@ -41,6 +44,14 @@ class RsocketEventsTest : BaseContainersTest() {
         fun registerProperties(registry: DynamicPropertyRegistry) {
             registry.add("spring.rsocket.server.port") { "$rsocketPort" }
         }
+    }
+
+    @AfterEach
+    fun tearDown() {
+        requesters.forEach {
+            it.dispose()
+        }
+        requesters.clear()
     }
 
     @Test
@@ -126,6 +137,8 @@ class RsocketEventsTest : BaseContainersTest() {
             .retrieveFlux(GameUpdatedEvent::class.java)
             .subscribe {
                 events.add(it)
+            }.also {
+                requesters.add(it)
             }
     }
 
