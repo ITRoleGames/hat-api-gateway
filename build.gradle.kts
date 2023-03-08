@@ -17,6 +17,7 @@ repositories {
     mavenCentral()
     maven { url = uri("https://repo.spring.io/milestone") }
     maven {
+        name="GitHubPackages"
         url = uri("https://maven.pkg.github.com/itrolegames/hat-game-event-api")
         credentials {
             username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")

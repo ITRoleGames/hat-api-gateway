@@ -32,7 +32,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run Script
         run: |
-          ./gradlew build --stacktrace
+          ./gradlew build --stacktrace --debug
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #      - name: Upload code coverage
