@@ -33,9 +33,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run Script
         run: |
-          ./gradlew build --debug
+          ./gradlew build
         env:
-          GITHUB_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
 #      - name: Upload code coverage
 #        uses: codecov/codecov-action@v3
