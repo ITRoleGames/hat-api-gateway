@@ -28,7 +28,7 @@ jobs:
           chmod +x gradle/wrapper/gradle-wrapper.jar
       - name: Run Script
         run: |
-          ./gradlew build
+          ./gradlew build -Pgpr.user="${{ github.actor }}" -Pgpr.key="${{ secrets.GITHUB_TOKEN }}"
       - name: Upload code coverage
         uses: codecov/codecov-action@v3
         with:
