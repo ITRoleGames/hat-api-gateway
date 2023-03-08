@@ -22,13 +22,17 @@ jobs:
         with:
           java-version: 17
           distribution: liberica
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Before Install
         run: |
           chmod +x gradlew
           chmod +x gradle/wrapper/gradle-wrapper.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run Script
         run: |
-          echo $GITHUB_ACTOR $GITHUB_TOKEN
+          ./gradlew build --stacktrace
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #      - name: Upload code coverage
