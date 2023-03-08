@@ -30,7 +30,7 @@ jobs:
           chmod +x gradlew
           chmod +x gradle/wrapper/gradle-wrapper.jar
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MAVEN_PACKAGE_SECRET }}
       - name: Run Script
         run: |
           ./gradlew build
