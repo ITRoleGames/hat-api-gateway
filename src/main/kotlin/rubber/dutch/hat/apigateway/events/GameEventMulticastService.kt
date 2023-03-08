@@ -3,7 +3,7 @@ package rubber.dutch.hat.apigateway.events
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Sinks
-import rubber.dutch.hat.apigateway.events.model.GameUpdatedEvent
+import rubber.dutch.hat.game.api.GameUpdatedEvent
 import java.util.concurrent.ConcurrentHashMap
 
 @Service

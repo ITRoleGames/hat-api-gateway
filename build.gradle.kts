@@ -16,11 +16,19 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 repositories {
     mavenCentral()
     maven { url = uri("https://repo.spring.io/milestone") }
+    maven {
+        url = uri("https://maven.pkg.github.com/itrolegames/hat-game-event-api")
+        credentials {
+            username = project.findProperty("gpr.user") as String? ?: System.getenv("username")
+            password = project.findProperty("gpr.key") as String? ?: System.getenv("password")
+        }
+    }
 }
 
 extra["springCloudVersion"] = "2022.0.0-RC2"
 
 dependencies {
+    implementation("rubber.dutch.hat:hat-game-event-api:0.0.1")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

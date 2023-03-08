@@ -2,7 +2,7 @@ FROM openjdk:17-jdk-alpine as build
 WORKDIR /workspace/app
 
 COPY gradle gradle
-COPY build.gradle.kts settings.gradle.kts gradlew ./
+COPY build.gradle.kts settings.gradle.kts gradle.properties gradlew ./
 COPY config config
 COPY src src
 

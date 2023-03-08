@@ -1,5 +1,6 @@
 package rubber.dutch.hat.apigateway.events
 
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.amqp.core.AmqpTemplate
@@ -16,8 +17,7 @@ import org.testcontainers.shaded.org.awaitility.Awaitility
 import reactor.core.Disposable
 import rubber.dutch.hat.apigateway.BaseContainersTest
 import rubber.dutch.hat.apigateway.events.amqp.AmqpConfig
-import rubber.dutch.hat.apigateway.events.model.GameEventType
-import rubber.dutch.hat.apigateway.events.model.GameUpdatedEvent
+import rubber.dutch.hat.game.api.GameUpdatedEvent
 import java.net.URI
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -34,6 +34,8 @@ class RsocketEventsTest : BaseContainersTest() {
     @LocalRSocketServerPort
     var rsocketPort: Int? = null
 
+    val requesters = mutableListOf<Disposable>()
+
     companion object {
         private var rsocketPort: Int = TestSocketUtils.findAvailableTcpPort()
 
@@ -42,6 +44,14 @@ class RsocketEventsTest : BaseContainersTest() {
         fun registerProperties(registry: DynamicPropertyRegistry) {
             registry.add("spring.rsocket.server.port") { "$rsocketPort" }
         }
+    }
+
+    @AfterEach
+    fun tearDown() {
+        requesters.forEach {
+            it.dispose()
+        }
+        requesters.clear()
     }
 
     @Test
@@ -127,13 +137,15 @@ class RsocketEventsTest : BaseContainersTest() {
             .retrieveFlux(GameUpdatedEvent::class.java)
             .subscribe {
                 events.add(it)
+            }.also {
+                requesters.add(it)
             }
     }
 
     private fun sendGameEvent(gameId: UUID) {
         amqpTemplate.convertAndSend(
             AmqpConfig.GAME_EVENT_QUEUE_NAME,
-            GameUpdatedEvent(gameId, GameEventType.GAME_UPDATED, UUID.randomUUID())
+            GameUpdatedEvent(gameId, UUID.randomUUID())
         )
     }
 }
