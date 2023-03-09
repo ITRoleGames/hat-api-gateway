@@ -5,7 +5,6 @@
 
 !gradlew
 !gradle
-!gradle.properties
 !build.gradle.kts
 !settings.gradle.kts
 !src/main
