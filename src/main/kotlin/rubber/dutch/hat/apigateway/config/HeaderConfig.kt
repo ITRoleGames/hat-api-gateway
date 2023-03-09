@@ -5,5 +5,5 @@ import org.springframework.boot.context.properties.bind.ConstructorBinding
 /**
  * Конфигурация заголовков запроса
  */
-@ConfigurationProperties("hat.headers")
+@ConfigurationProperties("application.headers")
 data class HeaderConfig @ConstructorBinding constructor(val authorization: String, val userId: String)

@@ -23,8 +23,8 @@ class CreateGameRouteTest : BaseRouteTest() {
         @JvmStatic
         @DynamicPropertySource
         fun registerProperties(registry: DynamicPropertyRegistry) {
-            registry.add("hat.services.user-service.uri") { "http://localhost:$userServicePort" }
-            registry.add("hat.services.game-service.uri") { "http://localhost:$gameServicePort" }
+            registry.add("application.services.user-service.uri") { "http://localhost:$userServicePort" }
+            registry.add("application.services.game-service.uri") { "http://localhost:$gameServicePort" }
         }
     }
 
