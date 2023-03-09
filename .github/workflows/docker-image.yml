@@ -3,7 +3,7 @@ name: Docker Image CI
 on:
   push:
     branches:
-      - 'feature/HAT-67'
+      - 'HAT-67'
 
 env:
   REGISTRY: ghcr.io
