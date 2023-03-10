@@ -1,35 +1,13 @@
 package rubber.dutch.hat.apigateway
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockserver.integration.ClientAndServer
 import org.mockserver.model.HttpRequest
 import org.mockserver.model.HttpResponse
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
-import org.springframework.test.context.DynamicPropertyRegistry
-import org.springframework.test.context.DynamicPropertySource
-import org.springframework.test.util.TestSocketUtils
 
 class GetCurrentUserRouteTest : BaseRouteTest() {
-
-    companion object {
-        private var userServicePort: Int = TestSocketUtils.findAvailableTcpPort()
-
-        @JvmStatic
-        @DynamicPropertySource
-        fun registerProperties(registry: DynamicPropertyRegistry) {
-            registry.add("application.services.user-service.uri") { "http://localhost:$userServicePort" }
-        }
-    }
-
-    @BeforeEach
-    internal override fun setUp() {
-        super.setUp()
-        mockServerUser = ClientAndServer.startClientAndServer(userServicePort)
-        super.mockTokenCall(mockServerUser)
-    }
 
     @Test
     fun `create game success`() {

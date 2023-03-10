@@ -9,6 +9,9 @@ import org.mockserver.model.HttpResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
+import org.springframework.test.util.TestSocketUtils
 import rubber.dutch.hat.apigateway.model.TokenDTO
 import java.util.*
 
@@ -17,25 +20,39 @@ class BaseRouteTest : BaseTest() {
     @Autowired
     lateinit var objectMapper: ObjectMapper
 
+    lateinit var mockServerUser: ClientAndServer
+
+    lateinit var mockServerGame: ClientAndServer
+
     companion object {
 
         const val TOKEN = "1234"
         const val USER_ID = "6e36074d-0614-47d7-bd61-e3840ea5b4d8"
+
+        private var userServicePort: Int = TestSocketUtils.findAvailableTcpPort()
+
+        private var gameServicePort: Int = TestSocketUtils.findAvailableTcpPort()
+
+        @JvmStatic
+        @DynamicPropertySource
+        fun registerProperties(registry: DynamicPropertyRegistry) {
+            registry.add("application.services.user-service.uri") { "http://localhost:$userServicePort" }
+            registry.add("application.services.game-service.uri") { "http://localhost:$gameServicePort" }
+        }
     }
-
-    lateinit var mockServerUser: ClientAndServer
-
-    internal var mockServerGame: ClientAndServer? = null
 
     @BeforeEach
     override fun setUp() {
         super.setUp()
+        mockServerUser = ClientAndServer.startClientAndServer(userServicePort)
+        mockTokenCall(mockServerUser)
+        mockServerGame = ClientAndServer.startClientAndServer(gameServicePort)
     }
 
     @AfterEach
     internal fun tearDown() {
         mockServerUser.stop()
-        mockServerGame?.stop()
+        mockServerGame.stop()
     }
 
     internal fun mockTokenCall(userServerMock: ClientAndServer) {

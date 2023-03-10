@@ -1,6 +1,11 @@
 FROM openjdk:17-jdk-alpine as build
 WORKDIR /workspace/app
 
+ARG GPR_USER
+ARG GPR_KEY
+ENV GPR_USER ${GPR_USER}
+ENV GPR_KEY ${GPR_KEY}
+
 COPY gradle gradle
 COPY build.gradle.kts settings.gradle.kts gradlew ./
 COPY config config

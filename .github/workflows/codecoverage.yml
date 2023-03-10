@@ -29,6 +29,9 @@ jobs:
       - name: Run Script
         run: |
           ./gradlew build
+        env:
+          GPR_USER: ${{ github.actor }}
+          GPR_KEY: ${{ secrets.PACKAGE_TOKEN }}
       - name: Upload code coverage
         uses: codecov/codecov-action@v3
         with:

@@ -29,38 +29,15 @@ class AuthFilter(
          * Длина префикса "Bearer", после которого в заголовке запроса следует токен.
          */
         const val BEARER_PREFIX_LENGTH = 7
-
-        /**
-         * Значение заголовка upgrade передаваемого при создании веб-сокет соединения
-         */
-
-        const val UPGRADE_TO_WEB_SOCKETS_HEADER_VALUE = "WebSocket"
-
-        /**
-         * Имя параметра запроса, кодержащего токен авторизации, при создании веб-сокет соединения
-         */
-        const val TOKEN_QUERY_PARAM = "token"
     }
 
     override fun filter(serverWebExchange: ServerWebExchange, chain: GatewayFilterChain): Mono<Void> {
         if (unsecureRouteService.isUnsecure(serverWebExchange)) return chain.filter(serverWebExchange)
 
-        val upgrade = serverWebExchange.request.headers.upgrade
-
-        var token: String? = null
-
-        if (UPGRADE_TO_WEB_SOCKETS_HEADER_VALUE.equals(upgrade, ignoreCase = true)) {
-            val tokens = serverWebExchange.request.queryParams[TOKEN_QUERY_PARAM]
-
-            if (!tokens.isNullOrEmpty()) {
-                token = tokens.first()
-            }
-        } else {
-            token = getTokenFromHeader(serverWebExchange)
-        }
+        val token = getTokenFromHeader(serverWebExchange)
 
         return authService.validate(token)
-            .flatMap { token -> chain.filter(addSessionHeader(serverWebExchange, token)) }
+            .flatMap { chain.filter(addSessionHeader(serverWebExchange, it)) }
             .onErrorResume(RuntimeException::class.java) { handleUnauthorized(serverWebExchange) }
     }
 
