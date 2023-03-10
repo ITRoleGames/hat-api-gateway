@@ -17,10 +17,10 @@ application:
       uri: http://\${APP_HOST:localhost}:9000
 spring:
   rabbitmq:
-    host: ${APP_HOST:localhost}
-    port: ${RABBIT_PORT:5672}
-    username: ${RABBIT_USER:guest}
-    password: ${RABBIT_PASSWORD:guest}
+    host: \${APP_HOST:localhost}
+    port: \${RABBIT_PORT:5672}
+    username: \${RABBIT_USER:guest}
+    password: \${RABBIT_PASSWORD:guest}
   rsocket:
     server:
       port: 9003

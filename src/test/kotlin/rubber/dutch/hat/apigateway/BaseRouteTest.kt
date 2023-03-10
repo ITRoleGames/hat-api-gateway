@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.util.TestSocketUtils
-import org.springframework.test.web.reactive.server.WebTestClient
 import rubber.dutch.hat.apigateway.model.TokenDTO
 import java.util.*
 
@@ -20,8 +19,6 @@ class BaseRouteTest : BaseTest() {
 
     @Autowired
     lateinit var objectMapper: ObjectMapper
-
-    lateinit var client: WebTestClient
 
     lateinit var mockServerUser: ClientAndServer
 
@@ -35,19 +32,18 @@ class BaseRouteTest : BaseTest() {
         private var userServicePort: Int = TestSocketUtils.findAvailableTcpPort()
 
         private var gameServicePort: Int = TestSocketUtils.findAvailableTcpPort()
-    lateinit var mockServerUser: ClientAndServer
 
         @JvmStatic
         @DynamicPropertySource
         fun registerProperties(registry: DynamicPropertyRegistry) {
-            registry.add("hat.services.user-service.uri") { "http://localhost:$userServicePort" }
-            registry.add("hat.services.game-service.uri") { "http://localhost:$gameServicePort" }
+            registry.add("application.services.user-service.uri") { "http://localhost:$userServicePort" }
+            registry.add("application.services.game-service.uri") { "http://localhost:$gameServicePort" }
         }
     }
 
     @BeforeEach
-    internal fun setUp() {
-        client = WebTestClient.bindToServer().baseUrl("http://localhost:$port").build()
+    override fun setUp() {
+        super.setUp()
         mockServerUser = ClientAndServer.startClientAndServer(userServicePort)
         mockTokenCall(mockServerUser)
         mockServerGame = ClientAndServer.startClientAndServer(gameServicePort)
