@@ -1,11 +1,17 @@
 package rubber.dutch.hat.apigateway.events
 
+import io.netty.buffer.ByteBuf
+import io.netty.buffer.ByteBufAllocator
+import io.rsocket.metadata.AuthMetadataCodec
+import io.rsocket.metadata.WellKnownMimeType
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.whenever
 import org.springframework.amqp.core.AmqpTemplate
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.rsocket.server.LocalRSocketServerPort
 import org.springframework.messaging.rsocket.RSocketRequester
 import org.springframework.messaging.rsocket.RSocketStrategies
@@ -15,14 +21,16 @@ import org.springframework.test.util.TestSocketUtils
 import org.springframework.util.MimeTypeUtils
 import org.testcontainers.shaded.org.awaitility.Awaitility
 import reactor.core.Disposable
+import reactor.core.publisher.Mono
 import rubber.dutch.hat.apigateway.BaseContainersTest
 import rubber.dutch.hat.apigateway.events.amqp.AmqpConfig
+import rubber.dutch.hat.apigateway.model.TokenDTO
+import rubber.dutch.hat.apigateway.service.AuthService
 import rubber.dutch.hat.game.api.GameUpdatedEvent
 import java.net.URI
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RsocketEventsTest : BaseContainersTest() {
 
     @Autowired
@@ -31,12 +39,17 @@ class RsocketEventsTest : BaseContainersTest() {
     @Autowired
     lateinit var rsocketStrategies: RSocketStrategies
 
+    @MockBean
+    lateinit var authService: AuthService
+
     @LocalRSocketServerPort
     var rsocketPort: Int? = null
 
     val requesters = mutableListOf<Disposable>()
 
     companion object {
+        const val AUTH_TOKEN = "some_token"
+
         private var rsocketPort: Int = TestSocketUtils.findAvailableTcpPort()
 
         @JvmStatic
@@ -44,6 +57,12 @@ class RsocketEventsTest : BaseContainersTest() {
         fun registerProperties(registry: DynamicPropertyRegistry) {
             registry.add("spring.rsocket.server.port") { "$rsocketPort" }
         }
+    }
+
+    @BeforeEach
+    fun setupMocks() {
+        whenever(authService.validate(AUTH_TOKEN))
+            .thenReturn(Mono.just(TokenDTO(AUTH_TOKEN, false, UUID.randomUUID())))
     }
 
     @AfterEach
@@ -125,6 +144,10 @@ class RsocketEventsTest : BaseContainersTest() {
             .rsocketStrategies(rsocketStrategies)
             .dataMimeType(MimeTypeUtils.APPLICATION_JSON)
             .setupRoute(route)
+            .setupMetadata(
+                createTokenMetadata(),
+                MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_AUTHENTICATION.string)
+            )
             .connectWebSocket(URI("ws://localhost:$rsocketPort"))
             .block()!!
     }
@@ -147,5 +170,9 @@ class RsocketEventsTest : BaseContainersTest() {
             AmqpConfig.GAME_EVENT_QUEUE_NAME,
             GameUpdatedEvent(gameId, UUID.randomUUID())
         )
+    }
+
+    private fun createTokenMetadata(): ByteBuf {
+        return AuthMetadataCodec.encodeBearerMetadata(ByteBufAllocator.DEFAULT, AUTH_TOKEN.toCharArray())
     }
 }
