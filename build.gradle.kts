@@ -7,10 +7,12 @@ plugins {
     kotlin("plugin.spring") version "1.7.21"
     id("io.gitlab.arturbosch.detekt") version "1.22.0"
     id("jacoco")
+    id("com.palantir.git-version") version "1.0.0"
 }
 
 group = "rubber.dutch.hat"
-version = "0.0.1-SNAPSHOT"
+val gitVersion: groovy.lang.Closure<String> by extra
+version = gitVersion()
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -65,9 +67,14 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+tasks.processResources {
+    expand("version" to project.version)
+}
+
 tasks.test {
     finalizedBy(tasks.jacocoTestReport)
 }
+
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
     reports {

@@ -14,9 +14,9 @@ import rubber.dutch.hat.apigateway.model.TokenDTO
 @Service
 class AuthService(
     webClientBuilder: WebClient.Builder,
-    @Value("\${hat.services.user-service.uri}")
+    @Value("\${application.services.user-service.uri}")
     private var userServiceUri: String,
-    @Value("\${hat.services.user-service.tokenPath}")
+    @Value("\${application.services.user-service.tokenPath}")
     private var userServiceTokenPath: String
 ) {
 

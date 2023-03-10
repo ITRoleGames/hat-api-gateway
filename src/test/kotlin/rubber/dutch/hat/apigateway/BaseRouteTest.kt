@@ -7,8 +7,6 @@ import org.mockserver.integration.ClientAndServer
 import org.mockserver.model.HttpRequest
 import org.mockserver.model.HttpResponse
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.DynamicPropertyRegistry
@@ -18,11 +16,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import rubber.dutch.hat.apigateway.model.TokenDTO
 import java.util.*
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class BaseRouteTest {
-
-    @LocalServerPort
-    private var port: Int = 0
+class BaseRouteTest : BaseTest() {
 
     @Autowired
     lateinit var objectMapper: ObjectMapper
@@ -36,12 +30,12 @@ class BaseRouteTest {
     companion object {
 
         const val TOKEN = "1234"
-
         const val USER_ID = "6e36074d-0614-47d7-bd61-e3840ea5b4d8"
 
         private var userServicePort: Int = TestSocketUtils.findAvailableTcpPort()
 
         private var gameServicePort: Int = TestSocketUtils.findAvailableTcpPort()
+    lateinit var mockServerUser: ClientAndServer
 
         @JvmStatic
         @DynamicPropertySource
