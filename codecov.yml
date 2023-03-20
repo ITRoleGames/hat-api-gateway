@@ -1,0 +1,8 @@
+coverage:
+  precision: 2
+  range:
+    - 50.0
+    - 70.0
+  round: down
+github_checks:
+  annotations: false
