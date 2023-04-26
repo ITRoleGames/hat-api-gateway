@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine as build
+FROM bellsoft/liberica-openjdk-alpine:17 as build
 WORKDIR /workspace/app
 
 ARG GPR_USER
@@ -19,7 +19,7 @@ RUN chmod +x gradlew
 RUN ./gradlew build -x test -x detekt
 RUN mkdir -p build/libs/dependency && (cd build/libs/dependency; jar -xf ../*.jar)
 
-FROM openjdk:17-jdk-alpine
+FROM bellsoft/liberica-openjre-alpine-musl:17
 VOLUME /tmp
 ARG DEPENDENCY=/workspace/app/build/libs/dependency
 COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
