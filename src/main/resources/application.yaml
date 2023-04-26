@@ -11,10 +11,10 @@ application:
         method: "POST"
   services:
     user-service:
-      uri: http://\${APP_HOST:localhost}:9001
+      uri: http://\${USER_HOST:localhost}:9001
       tokenPath: "/api/v1/tokens"
     game-service:
-      uri: http://\${APP_HOST:localhost}:9000
+      uri: http://\${GAME_HOST:localhost}:9000
 spring:
   rabbitmq:
     host: \${APP_HOST:localhost}
@@ -76,6 +76,28 @@ spring:
           uri: \${application.services.game-service.uri}
           predicates:
             - Path=/api/v1/games/{gameId}/startGame
+            - Method=POST
+        - id: game-start-round
+          uri: \${application.services.game-service.uri}
+          predicates:
+            - Path=/api/v1/games/{gameId}/rounds
+            - Method=POST
+        - id: game-get-rounds
+          uri: \${application.services.game-service.uri}
+          predicates:
+            - Path=/api/v1/games/{gameId}/rounds
+            - Method=GET
+            - Query=limit
+            - Query=sort
+        - id: game-next-round
+          uri: \${application.services.game-service.uri}
+          predicates:
+            - Path=/api/v1/games/{gameId}/rounds/{roundId}/finishCurrentAndStartNewExplanation
+            - Method=POST
+        - id: game-finish-round
+          uri: \${application.services.game-service.uri}
+          predicates:
+            - Path=/api/v1/games/{gameId}/rounds/{roundId}/finish
             - Method=POST
 #        GAME SERVICE END
       httpclient:
